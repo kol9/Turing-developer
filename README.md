@@ -12,5 +12,5 @@ Pass the filename as argument to [Visualizer](https://github.com/BudAlNik/turing
 
 # WARNING!
 
-Dear students, please do not plagiarize the code, as at the end of the semester there will be a check for cheating, and you may lose =)
+Dear students, please do not plagiarize the code, as at the end of the semester there will be a check for cheating, and you may lose <3
 
