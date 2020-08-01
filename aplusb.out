@@ -1,0 +1,44 @@
+start: lhs
+accept: AC
+reject: RJ
+blank: _
+
+lhs 0 -> lhs 0 >
+lhs 1 -> lhs 1 >
+lhs + -> plus + >
+
+plus 0 -> rhs 0 >
+plus 1 -> rhs 1 >
+
+rhs 0 -> rhs 0 >
+rhs 1 -> rhs 1 >
+rhs _ -> sub1 _ <
+
+sub1 0 -> sub1 1 <
+sub1 1 -> goto+ 0 <
+sub1 + -> delete _ >
+
+delete 0 -> delete _ >
+delete 1 -> delete _ >
+delete _ -> gotobegin _ >
+
+goto+ 0 -> goto+ 0 <
+goto+ 1 -> goto+ 1 <
+goto+ + -> add1 + <
+
+add1 0 -> gotoend 1 >
+add1 1 -> add1 0 <
+add1 _ -> gotoend 1 >
+
+gotoend 0 -> gotoend 0 >
+gotoend 1 -> gotoend 1 >
+gotoend + -> gotoend + >
+gotoend _ -> sub1 _ <
+
+gotobegin _ -> gotobegin _ <
+gotobegin 0 -> findstart 0 <
+gotobegin 1 -> findstart 1 <
+
+findstart 0 -> findstart 0 <
+findstart 1 -> findstart 1 <
+findstart _ -> AC _ >

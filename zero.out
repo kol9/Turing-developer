@@ -1,0 +1,10 @@
+start: s
+accept: AC
+reject: RJ
+blank: _
+
+
+s _ -> AC _ ^
+e1 0 -> s _ >
+s 0 -> e1 _ >
+e1 _ -> RJ _ >

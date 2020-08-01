@@ -1,0 +1,22 @@
+start: s
+accept: AC
+reject: RJ
+blank: _
+
+
+s _ -> AC _ ^
+s ( -> collect ( >
+s ) -> RJ _ ^
+
+collect ( -> collect ( >
+collect ) -> remove 0 <
+collect 0 -> collect 0 >
+collect _ -> checkleft _ <
+
+remove ( -> collect 0 >
+remove 0 -> remove 0 <
+
+checkleft _ -> AC _ ^
+checkleft 0 -> checkleft 0 <
+checkleft ( -> RJ _ ^
+checkleft ) -> RJ _ ^

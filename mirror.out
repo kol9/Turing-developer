@@ -1,0 +1,30 @@
+start: s
+accept: AC
+reject: RJ
+blank: _
+
+s 0 -> s 0 >
+s 1 -> s 1 >
+s _ -> start _ <
+
+start 0 -> addZero Z >
+start 1 -> addOne O >
+start _ -> AC _ >
+
+
+addOne 0 -> addOne 0 >
+addOne 1 -> addOne 1 >
+addOne _ -> gotoO 1 <
+
+gotoO 0 -> gotoO 0 <
+gotoO 1 -> gotoO 1 <
+gotoO O -> start 1 <
+
+
+addZero 0 -> addZero 0 >
+addZero 1 -> addZero 1 >
+addZero _ -> gotoZ 0 <
+
+gotoZ 0 -> gotoZ 0 <
+gotoZ 1 -> gotoZ 1 <
+gotoZ Z -> start 0 <

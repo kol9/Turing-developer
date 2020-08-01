@@ -1,0 +1,132 @@
+start: s
+accept: AC
+reject: RJ
+blank: _
+
+s 1 -> pickA a >
+s 0 -> pickB b >
+
+pickA 1 -> restartagain A <
+pickA 0 -> pickA 0 >
+
+pickB 0 -> restartagain B <
+pickB 1 -> pickB 1 >
+
+restartagain a -> S a ^
+restartagain b -> S b ^
+restartagain 0 -> restartagain 0 <
+restartagain 1 -> restartagain 1 <
+
+S a -> findRighta a >
+S b -> findRightb b >
+
+findRighta 0 -> gotoA0 z >
+findRighta 1 -> gotoA1 o >
+findRighta A -> checkAC A >
+
+findRightb 0 -> gotoB0 z >
+findRightb 1 -> gotoB1 o >
+findRightb B -> checkAC B >
+
+checkAC 0 -> NEXT 0 ^
+checkAC _ -> AC _ ^
+checkAC 1 -> NEXT 1 ^
+checkAC O -> checkAC O >
+checkAC Z -> checkAC Z >
+
+gotoA0 0 -> gotoA0 0 >
+gotoA0 1 -> gotoA0 1 >
+gotoA0 A -> getEl0 A >
+
+gotoB0 0 -> gotoB0 0 >
+gotoB0 1 -> gotoB0 1 >
+gotoB0 B -> getEl0b B >
+
+gotoA1 0 -> gotoA1 0 >
+gotoA1 1 -> gotoA1 1 >
+gotoA1 A -> getEl1 A >
+
+gotoB1 0 -> gotoB1 0 >
+gotoB1 1 -> gotoB1 1 >
+gotoB1 B -> getEl1b B >
+
+getEl0 0 -> goBack Z <
+getEl0 O -> getEl0 O >
+getEl0 Z -> getEl0 Z >
+getEl0 1 -> NEXT 1 <
+getEl0 _ -> NEXT _ <
+
+getEl0b 0 -> goBackb Z <
+getEl0b O -> getEl0b O >
+getEl0b Z -> getEl0b Z >
+getEl0b 1 -> NEXT 1 <
+getEl0b _ -> NEXT _ <
+
+getEl1 1 -> goBack O <
+getEl1 Z -> getEl1 Z >
+getEl1 O -> getEl1 O >
+getEl1 0 -> NEXT 0 <
+getEl1 _ -> NEXT _ <
+
+getEl1b 1 -> goBackb O <
+getEl1b Z -> getEl1b Z >
+getEl1b O -> getEl1b O >
+getEl1b 0 -> NEXT 0 <
+getEl1b _ -> NEXT _ <
+
+goBack Z -> goBack Z <
+goBack A -> goBack A <
+goBack B -> goBack B <
+goBack O -> goBack O <
+goBack 0 -> goBack 0 <
+goBack 1 -> goBack 1 <
+goBack z -> findRighta z >
+goBack o -> findRighta o >
+
+goBackb Z -> goBackb Z <
+goBackb A -> goBackb A <
+goBackb B -> goBackb B <
+goBackb O -> goBackb O <
+goBackb 0 -> goBackb 0 <
+goBackb 1 -> goBackb 1 <
+goBackb z -> findRightb z >
+goBackb o -> findRightb o >
+
+NEXT 0 -> restore 0 ^
+NEXT 1 -> restore 1 ^
+NEXT O -> restore O ^
+NEXT Z -> restore Z ^
+NEXT A -> restore A ^
+NEXT B -> restore B ^
+
+restore 0 -> restore 0 <
+restore 1 -> restore 1 <
+restore O -> restore 1 <
+restore Z -> restore 0 <
+restore o -> restore 1 <
+restore z -> restore 0 <
+restore A -> restore A <
+restore B -> restore B <
+restore a -> nextA a >
+restore b -> nextB b >
+
+nextA 0 -> nextA 0 >
+nextA 1 -> nextA 1 >
+nextA A -> putA 1 >
+
+nextB 0 -> nextB 0 >
+nextB 1 -> nextB 1 >
+nextB B -> putB 0 >
+
+putA 1 -> restart A <
+putA 0 -> putA 0 >
+putA _ -> RJ _ ^
+
+putB 0 -> restart B <
+putB 1 -> putB 1 >
+putB _ -> RJ _ ^
+
+restart 0 -> restart 0 <
+restart 1 -> restart 1 <
+restart a -> findRighta a >
+restart b -> findRightb b >

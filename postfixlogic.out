@@ -1,0 +1,54 @@
+3
+
+S 1 _ _ -> findOp 1 ^ _ ^ _ ^
+S 0 _ _ -> findOp 0 ^ _ ^ _ ^
+
+findOp 1 _ _ -> findOp 1 > _ ^ _ ^
+findOp 0 _ _ -> findOp 0 > _ ^ _ ^
+findOp o _ _ -> takeB o < _ ^ _ ^
+findOp a _ _ -> takeB a < _ ^ _ ^
+findOp _ _ _ -> goBack _ < _ ^ _ ^
+
+goBack 0 _ _ -> goBack 0 < _ ^ _ ^
+goBack 1 _ _ -> goBack 1 < _ ^ _ ^
+goBack $ _ _ -> goBack $ < _ ^ _ ^
+goBack _ _ _ -> remove$ _ > _ ^ _ ^
+
+remove$ $ _ _ -> remove$ _ > _ ^ _ ^
+remove$ 1 _ _ -> AC 1 ^ _ ^ _ ^
+remove$ 0 _ _ -> AC 0 ^ _ ^ _ ^
+
+
+takeB 1 _ _ -> takeA $ < _ ^ 1 ^
+takeB 0 _ _ -> takeA $ < _ ^ 0 ^
+
+takeA 0 _ 0 -> getOp $ > 0 ^ 0 ^
+takeA 0 _ 1 -> getOp $ > 0 ^ 1 ^
+takeA 1 _ 0 -> getOp $ > 1 ^ 0 ^
+takeA 1 _ 1 -> getOp $ > 1 ^ 1 ^
+takeA $ _ 0 -> takeA $ < _ ^ 0 ^
+takeA $ _ 1 -> takeA $ < _ ^ 1 ^
+
+
+
+getOp $ 0 0 -> getOp $ > 0 ^ 0 ^
+getOp $ 0 1 -> getOp $ > 0 ^ 1 ^
+getOp $ 1 0 -> getOp $ > 1 ^ 0 ^
+getOp $ 1 1 -> getOp $ > 1 ^ 1 ^
+getOp a 0 0 -> findOp 0 ^ _ ^ _ ^
+getOp a 0 1 -> findOp 0 ^ _ ^ _ ^
+getOp a 1 0 -> findOp 0 ^ _ ^ _ ^
+getOp a 1 1 -> findOp 1 ^ _ ^ _ ^
+
+
+getOp $ 0 0 -> getOp $ > 0 ^ 0 ^
+getOp $ 0 1 -> getOp $ > 0 ^ 1 ^
+getOp $ 1 0 -> getOp $ > 1 ^ 0 ^
+getOp $ 1 1 -> getOp $ > 1 ^ 1 ^
+getOp o 0 0 -> findOp 0 ^ _ ^ _ ^
+getOp o 0 1 -> findOp 1 ^ _ ^ _ ^
+getOp o 1 0 -> findOp 1 ^ _ ^ _ ^
+getOp o 1 1 -> findOp 1 ^ _ ^ _ ^
+
+
+

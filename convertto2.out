@@ -1,0 +1,52 @@
+start: s
+accept: AC
+reject: RJ
+blank: _
+
+s 0 -> AC 0 ^
+s 1 -> delim 1 <
+s 2 -> delim 2 <
+
+delim _ -> gotoend | >
+
+gotoend | -> gotoend | >
+gotoend 0 -> gotoend 0 >
+gotoend 1 -> gotoend 1 >
+gotoend 2 -> gotoend 2 >
+gotoend _ -> min1 _ <
+
+min1 | -> goBackAndDelete | >
+min1 0 -> min1 2 <
+min1 1 -> goto| 0 <
+min1 2 -> goto| 1 <
+
+goto| | -> add1 | <
+goto| 0 -> goto| 0 <
+goto| 1 -> goto| 1 <
+goto| 2 -> goto| 2 <
+
+add1 _ -> gotoend 1 >
+add1 0 -> gotoend 1 >
+add1 1 -> extraone 0 <
+
+extraone 0 -> gotoend 1 >
+extraone _ -> gotoend 1 >
+extraone 1 -> extraone 0 <
+
+goBackAndDelete 0 -> goBackAndDelete 0 >
+goBackAndDelete 1 -> goBackAndDelete 1 >
+goBackAndDelete 2 -> goBackAndDelete 2 >
+goBackAndDelete _ -> deleteTail _ <
+
+
+deleteTail 0 -> deleteTail _ <
+deleteTail 1 -> deleteTail _ <
+deleteTail 2 -> deleteTail _ <
+deleteTail | -> gotoBegin _ <
+
+gotoBegin 0 -> gotoBegin 0 <
+gotoBegin 1 -> gotoBegin 1 <
+gotoBegin _ -> AC _ >
+
+
+

@@ -1,0 +1,313 @@
+start: megamegaS
+accept: AC
+reject: RJ
+blank: _
+
+
+megamegaS 1 -> checkONE 1 >
+
+checkONE _ -> ansIsOne _ <
+checkONE 0 -> superRESTART 0 <
+checkONE 1 -> superRESTART 1 <
+
+
+ansIsOne 1 -> AC 1 ^
+
+superRESTART 1 -> megaS 1 ^
+
+megaS 1 -> add*s 1 >
+
+add*s 0 -> add*s 0 >
+add*s 1 -> add*s 1 >
+add*s _ -> megaCopy * <
+
+megaCopy 0 -> megaCopy 0 <
+megaCopy 1 -> megaCopy 1 <
+megaCopy _ -> mirrorStart _ >
+
+mirrorStart 0 -> addmega0 Z >
+mirrorStart 1 -> addmega1 O >
+
+mirrorStart * -> omegaRestartS1 * >
+
+omegaRestartS1 1 -> omegaRestartS1 1 >
+omegaRestartS1 0 -> omegaRestartS1 0 >
+omegaRestartS1 _ -> otnat1 _ <
+
+otnat1 0 -> otnat1 1 <
+otnat1 1 -> megagoingto* 0 <
+
+megagoingto* 0 -> megagoingto* 0 <
+megagoingto* 1 -> megagoingto* 1 <
+megagoingto* * -> omegaRestartS * <
+
+omegaRestartS O -> omegaRestartS 1 <
+omegaRestartS Z -> omegaRestartS 0 <
+omegaRestartS _ -> s _ >
+
+addmega0 0 -> addmega0 0 >
+addmega0 1 -> addmega0 1 >
+addmega0 * -> goandAdd0 * >
+
+addmega1 0 -> addmega1 0 >
+addmega1 1 -> addmega1 1 >
+addmega1 * -> goandAdd1 * >
+
+
+goandAdd0 _ -> megarestartMirror 0 <
+goandAdd0 0 -> goandAdd0 0 >
+goandAdd0 1 -> goandAdd0 1 >
+
+goandAdd1 _ -> megarestartMirror 1 <
+goandAdd1 0 -> goandAdd1 0 >
+goandAdd1 1 -> goandAdd1 1 >
+
+
+megarestartMirror 0 -> megarestartMirror 0 <
+megarestartMirror 1 -> megarestartMirror 1 <
+megarestartMirror * -> megarestartMirror * <
+megarestartMirror O -> mirrorStart O >
+megarestartMirror Z -> mirrorStart Z >
+
+
+s 0 -> putDelim 0 <
+s 1 -> putDelim 1 <
+
+putDelim _ -> start | >
+
+start 1 -> start 1 >
+start 0 -> start 0 >
+start * -> start * >
+start _ -> startMultiplying _ <
+
+
+startMultiplying 0 -> multiplyByZero Z <
+startMultiplying 1 -> multiplyByOne O <
+startMultiplying * -> clear * >
+
+clear O -> clear O >
+clear Z -> clear Z >
+clear _ -> rem1 _ <
+
+rem1 O -> goCenter Z <
+rem1 Z -> rem1 O <
+
+
+goCenter O -> goCenter O <
+goCenter Z -> goCenter Z <
+goCenter * -> skipZerosss * >
+
+
+MEGAEND n -> MEGAEND _ <
+MEGAEND m -> MEGAEND _ <
+MEGAEND * -> MEGAEND _ <
+MEGAEND 1 -> MEGAEND _ <
+MEGAEND 0 -> MEGAEND _ <
+MEGAEND | -> gotoBeginning _ <
+
+
+
+startCopy m -> startCopy m >
+startCopy n -> startCopy n >
+startCopy O -> copy1 m <
+startCopy Z -> copy0 n <
+startCopy _ -> upd _ <
+
+skipZerosss Z -> skipZerosss n >
+skipZerosss n -> skipZerosss n >
+skipZerosss m -> startCopy m >
+skipZerosss O -> startCopy O ^
+
+skipZerosss _ -> MEGAEND _ <
+
+
+copy0 n -> copy0 n <
+copy0 m -> copy0 m <
+copy0 * -> put0 *  <
+
+
+copy1 n -> copy1 n <
+copy1 m -> copy1 m <
+copy1 * -> put1 *  <
+
+put0 0 -> put0 0 <
+put0 1 -> put0 1 <
+put0 Z -> add0 Z >
+put0 O -> add0 O >
+put0 | -> add0 | >
+
+
+put1 0 -> put1 0 <
+put1 1 -> put1 1 <
+put1 Z -> add1 Z >
+put1 O -> add1 O >
+put1 | -> add1 | >
+
+
+add0 0 -> goendcp Z >
+add0 1 -> goendcp Z >
+
+add1 0 -> goendcp O >
+add1 1 -> goendcp O >
+
+goendcp O -> goendcp O >
+goendcp Z -> goendcp Z >
+goendcp 0 -> goendcp 0 >
+goendcp 1 -> goendcp 1 >
+goendcp * -> startCopy * >
+
+
+
+
+upd | -> nextGen * <
+upd n -> upd _ <
+upd m -> upd _ <
+upd 0 -> upd _ <
+upd 1 -> upd _ <
+upd * -> upd _ <
+upd O -> upd 1 <
+upd Z -> upd 0 <
+
+nextGen o -> nextGen 1 <
+nextGen z -> nextGen 0 <
+nextGen 0 -> nextGen 0 <
+nextGen 1 -> nextGen 1 <
+nextGen _ -> s _ >
+
+
+gotoBeginning z -> gotoBeginning 0 <
+gotoBeginning o -> gotoBeginning 1 <
+gotoBeginning 0 -> gotoBeginning 0 <
+gotoBeginning 1 -> gotoBeginning 1 <
+gotoBeginning _ -> removeLeadingZeros _ >
+
+
+removeLeadingZeros 0 -> removeLeadingZeros _ >
+removeLeadingZeros 1 -> AC 1 ^
+removeLeadingZeros _ -> AC 0 ^
+
+
+multiplyByZero 0 -> multiplyByZero 0 <
+multiplyByZero 1 -> multiplyByZero 1 <
+multiplyByZero * -> findLhs0 * <
+
+multiplyByOne 0 -> multiplyByOne 0 <
+multiplyByOne 1 -> multiplyByOne 1 <
+multiplyByOne * -> findLhs1 * <
+
+findLhs0 0 -> goLeft00 a <
+findLhs0 1 -> goLeft10 b <
+findLhs0 a -> findLhs0 a <
+findLhs0 b -> findLhs0 b <
+findLhs0 | -> addBlockSymbol | <
+
+findLhs1 0 -> goLeft01 a <
+findLhs1 1 -> goLeft11 b <
+findLhs1 a -> findLhs1 a <
+findLhs1 b -> findLhs1 b <
+findLhs1 | -> addBlockSymbol | <
+
+addBlockSymbol - -> reset z <
+addBlockSymbol + -> reset o <
+addBlockSymbol z -> addBlockSymbol z <
+addBlockSymbol o -> addBlockSymbol o <
+
+reset - -> reset 0 <
+reset + -> reset 1 <
+reset 0 -> reset 0 <
+reset 1 -> reset 1 <
+reset _ -> nextStep _ >
+
+nextStep 0 -> nextStep 0 >
+nextStep 1 -> nextStep 1 >
+nextStep o -> nextStep o >
+nextStep z -> nextStep z >
+nextStep | -> nextStep | >
+nextStep a -> nextStep 0 >
+nextStep b -> nextStep 1 >
+nextStep * -> findRhs * >
+
+findRhs 0 -> findRhs 0 >
+findRhs 1 -> findRhs 1 >
+findRhs Z -> startMultiplying Z <
+findRhs O -> startMultiplying O <
+
+goLeft00 0 -> goLeft00 0 <
+goLeft00 1 -> goLeft00 1 <
+goLeft00 | -> mul00 | <
+
+goLeft01 0 -> goLeft01 0 <
+goLeft01 1 -> goLeft01 1 <
+goLeft01 | -> mul01 | <
+
+goLeft10 0 -> goLeft10 0 <
+goLeft10 1 -> goLeft10 1 <
+goLeft10 | -> mul10 | <
+
+goLeft11 0 -> goLeft11 0 <
+goLeft11 1 -> goLeft11 1 <
+goLeft11 | -> mul11 | <
+
+mul00 z -> mul00 z <
+mul00 o -> mul00 o <
+mul00 _ -> goback0 - >
+mul00 0 -> goback0 - >
+mul00 1 -> goback0 + >
+mul00 - -> mul00 - <
+mul00 + -> mul00 + <
+
+mul10 z -> mul10 z <
+mul10 o -> mul10 o <
+mul10 _ -> goback0 - >
+mul10 0 -> goback0 - >
+mul10 1 -> goback0 + >
+mul10 - -> mul10 - <
+mul10 + -> mul10 + <
+
+
+
+mul01 z -> mul01 z <
+mul01 o -> mul01 o <
+mul01 _ -> goback1 - >
+mul01 0 -> goback1 - >
+mul01 1 -> goback1 + >
+mul01 - -> mul01 - <
+mul01 + -> mul01 + <
+
+mul11 z -> mul11 z <
+mul11 o -> mul11 o <
+mul11 _ -> goback1 + >
+mul11 0 -> goback1 + >
+mul11 1 -> fill1 - <
+mul11 - -> mul11 - <
+mul11 + -> mul11 + <
+
+fill1 _ -> goback1 1 >
+fill1 0 -> goback1 1 >
+fill1 1 -> fill1 0 <
+
+goback0 0 -> goback0 0 >
+goback0 1 -> goback0 1 >
+goback0 z -> goback0 z >
+goback0 o -> goback0 o >
+goback0 | -> goback0 | >
+goback0 + -> goback0 + >
+goback0 - -> goback0 - >
+goback0 a -> findLhs0 a <
+goback0 b -> findLhs0 b < 
+
+goback1 0 -> goback1 0 >
+goback1 1 -> goback1 1 >
+goback1 z -> goback1 z >
+goback1 o -> goback1 o >
+goback1 | -> goback1 | >
+goback1 + -> goback1 + >
+goback1 - -> goback1 - >
+goback1 a -> findLhs1 a <
+goback1 b -> findLhs1 b <
+
+
+
+
+
+

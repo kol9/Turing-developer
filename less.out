@@ -1,0 +1,72 @@
+start: s
+accept: AC
+reject: RJ
+blank: _
+
+s 0 -> cntRight O >
+s 1 -> cntRight | >
+s < -> checkEndR < >
+
+checkEndR O -> checkEndR O >
+checkEndR | -> checkEndR | >
+checkEndR 0 -> AC 0 ^
+checkEndR 1 -> AC 0 ^
+checkEndR _ -> equalLen _ <
+
+cntRight 0 -> cntRight 0 >
+cntRight 1 -> cntRight 1 >
+cntRight < -> sr < >
+
+sr 0 -> goBack O <
+sr 1 -> goBack | <
+sr O -> sr O >
+sr | -> sr | >
+sr _ -> RJ _ ^
+
+goBack O -> goBack O <
+goBack | -> goBack | <
+goBack < -> goS < <
+
+goS 0 -> goS 0 <
+goS 1 -> goS 1 <
+goS O -> s O >
+goS | -> s | >
+
+
+equalLen O -> equalLen 0 <
+equalLen | -> equalLen 1 <
+equalLen < -> equalLen < <
+equalLen _ -> startComparing _ >
+
+startComparing 0 -> L0 O >
+startComparing 1 -> L1 | >
+startComparing < -> RJ 0 ^
+
+L0 0 -> L0 0 >
+L0 1 -> L0 1 >
+L0 < -> Left0 < >
+
+L1 0 -> L1 0 >
+L1 1 -> L1 1 >
+L1 < -> Left1 < >
+
+Left0 O -> Left0 O >
+Left0 | -> Left0 | >
+Left0 0 -> restartCmp O <
+Left0 1 -> AC _ ^
+
+Left1 O -> Left1 O >
+Left1 | -> Left1 | >
+Left1 0 -> RJ _ ^
+Left1 1 -> restartCmp | <
+
+restartCmp O -> restartCmp O <
+restartCmp | -> restartCmp | <
+restartCmp < -> restartCmp1 < <
+
+restartCmp1 0 -> restartCmp1 0 <
+restartCmp1 1 -> restartCmp1 1 <
+restartCmp1 O -> startComparing O >
+restartCmp1 | -> startComparing | >
+
+

@@ -1,0 +1,144 @@
+3
+
+
+
+S 0 _ _ -> solveParentheses 0 ^ _ ^ _ ^
+S 1 _ _ -> solveParentheses 1 ^ _ ^ _ ^
+S ( _ _ -> solveParentheses ( ^ _ ^ _ ^
+
+
+solveParentheses 0 _ _ -> solveParentheses 0 > _ ^ _ ^
+solveParentheses 1 _ _ -> solveParentheses 1 > _ ^ _ ^
+solveParentheses * _ _ -> solveParentheses * > _ ^ _ ^
+solveParentheses + _ _ -> solveParentheses + > _ ^ _ ^
+solveParentheses a _ _ -> solveParentheses * > _ ^ _ ^
+solveParentheses o _ _ -> solveParentheses + > _ ^ _ ^
+solveParentheses ( _ _ -> solveParenthesis [ > _ ^ _ ^
+
+solveParentheses _ _ _ -> findAnd _ < _ ^ _ ^
+
+solveParenthesis 0 _ _ -> solveParenthesis 0 > _ ^ _ ^
+solveParenthesis 1 _ _ -> solveParenthesis 1 > _ ^ _ ^
+solveParenthesis a _ _ -> solveParenthesis * > _ ^ _ ^
+solveParenthesis o _ _ -> solveParenthesis + > _ ^ _ ^
+
+solveParenthesis ( _ _ -> solveParenthesis [ > _ ^ _ ^
+solveParenthesis ) _ _ -> findAnd ] < _ ^ _ ^
+solveParenthesis _ _ _ -> findAnd _ < _ ^ _ ^
+
+
+findAnd 0 _ _ -> findAnd 0 < _ ^ _ ^
+findAnd 1 _ _ -> findAnd 1 < _ ^ _ ^
+findAnd + _ _ -> findAnd + < _ ^ _ ^
+findAnd $ _ _ -> findAnd $ < _ ^ _ ^
+findAnd * _ _ -> findLhs* * < _ ^ _ ^
+
+findAnd [ _ _ -> goTo] [ > _ ^ _ ^
+
+findAnd _ _ _ -> goToEnd _ > _ ^ _ ^
+
+goToEnd _ _ _ -> findOr _ < _ ^ _ ^
+goToEnd $ _ _ -> goToEnd $ > _ ^ _ ^
+goToEnd 0 _ _ -> goToEnd 0 > _ ^ _ ^
+goToEnd 1 _ _ -> goToEnd 1 > _ ^ _ ^
+goToEnd + _ _ -> goToEnd + > _ ^ _ ^
+goToEnd * _ _ -> goToEnd * > _ ^ _ ^
+
+
+findOr 0 _ _ -> findOr 0 < _ ^ _ ^
+findOr 1 _ _ -> findOr 1 < _ ^ _ ^
+findOr + _ _ -> findLhs+ + < _ ^ _ ^
+findOr $ _ _ -> findOr $ < _ ^ _ ^
+
+findOr [ _ _ -> remove[ $ > _ ^ _ ^
+findOr _ _ _ -> DELETE$ _ > _ ^ _ ^
+
+DELETE$ $ _ _ -> DELETE$ _ > _ ^ _ ^
+DELETE$ 0 _ _ -> DELETE$ 0 > _ ^ _ ^
+DELETE$ 1 _ _ -> DELETE$ 1 > _ ^ _ ^
+DELETE$ _ _ _ -> gotoStart _ < _ ^ _ ^
+
+gotoStart _ _ _ -> gotoStart _ < _ ^ _ ^
+gotoStart 0 _ _ -> AC 0 ^ _ ^ _ ^
+gotoStart 1 _ _ -> AC 1 ^ _ ^ _ ^
+
+remove[ 0 _ _ -> remove[ 0 > _ ^ _ ^
+remove[ 1 _ _ -> remove[ 1 > _ ^ _ ^
+remove[ $ _ _ -> remove[ $ > _ ^ _ ^
+remove[ ] _ _ -> solveParenthesis $ > _ ^ _ ^
+
+goTo] ] _ _ -> findOr ] < _ ^ _ ^
+goTo] 0 _ _ -> goTo] 0 > _ ^ _ ^
+goTo] 1 _ _ -> goTo] 1 > _ ^ _ ^
+goTo] $ _ _ -> goTo] $ > _ ^ _ ^
+goTo] + _ _ -> goTo] + > _ ^ _ ^
+
+
+findLhs* $ _ _ -> findLhs* $ < _ ^ _ ^
+findLhs* 0 _ _ -> findRhs* $ > 0 ^ _ ^
+findLhs* 1 _ _ -> findRhs* $ > 1 ^ _ ^
+
+findLhs+ $ _ _ -> findLhs+ $ < _ ^ _ ^
+findLhs+ 0 _ _ -> findRhs+ $ > 0 ^ _ ^
+findLhs+ 1 _ _ -> findRhs+ $ > 1 ^ _ ^
+
+findRhs* $ 0 _ -> findRhs* $ > 0 ^ _ ^
+findRhs* * 0 _ -> findRhs* * > 0 ^ _ ^
+findRhs* $ 1 _ -> findRhs* $ > 1 ^ _ ^
+findRhs* * 1 _ -> findRhs* * > 1 ^ _ ^
+
+findRhs* 0 0 _ -> eval* $ ^ 0 ^ 0 ^
+findRhs* 0 1 _ -> eval* $ ^ 1 ^ 0 ^
+findRhs* 1 0 _ -> eval* $ ^ 0 ^ 1 ^
+findRhs* 1 1 _ -> eval* $ ^ 1 ^ 1 ^
+
+
+findRhs+ $ 0 _ -> findRhs+ $ > 0 ^ _ ^
+findRhs+ + 0 _ -> findRhs+ + > 0 ^ _ ^
+findRhs+ $ 1 _ -> findRhs+ $ > 1 ^ _ ^
+findRhs+ + 1 _ -> findRhs+ + > 1 ^ _ ^
+
+findRhs+ 0 0 _ -> eval+ $ ^ 0 ^ 0 ^
+findRhs+ 0 1 _ -> eval+ $ ^ 1 ^ 0 ^
+findRhs+ 1 0 _ -> eval+ $ ^ 0 ^ 1 ^
+findRhs+ 1 1 _ -> eval+ $ ^ 1 ^ 1 ^
+
+
+
+
+eval* $ 0 0 -> eval* $ < 0 ^ 0 ^
+eval* $ 0 1 -> eval* $ < 0 ^ 1 ^
+eval* $ 1 0 -> eval* $ < 1 ^ 0 ^
+eval* $ 1 1 -> eval* $ < 1 ^ 1 ^
+
+eval* * 0 0 -> findAnd 0 ^ _ ^ _ ^
+eval* * 0 1 -> findAnd 0 ^ _ ^ _ ^
+eval* * 1 0 -> findAnd 0 ^ _ ^ _ ^
+eval* * 1 1 -> findAnd 1 ^ _ ^ _ ^
+
+eval+ $ 0 0 -> eval+ $ < 0 ^ 0 ^
+eval+ $ 0 1 -> eval+ $ < 0 ^ 1 ^
+eval+ $ 1 0 -> eval+ $ < 1 ^ 0 ^
+eval+ $ 1 1 -> eval+ $ < 1 ^ 1 ^
+
+eval+ + 0 0 -> findOr 0 ^ _ ^ _ ^
+eval+ + 0 1 -> findOr 1 ^ _ ^ _ ^
+eval+ + 1 0 -> findOr 1 ^ _ ^ _ ^
+eval+ + 1 1 -> findOr 1 ^ _ ^ _ ^
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,150 @@
+3
+
+S 1 _ _ -> putEnd 1 > _ ^ _ ^
+S 0 _ _ -> putEnd 0 > _ ^ _ ^
+
+putEnd | _ _ -> putEnd | > _ ^ _ ^
+putEnd 0 _ _ -> putEnd 0 > _ ^ _ ^
+putEnd 1 _ _ -> putEnd 1 > _ ^ _ ^
+putEnd _ _ _ -> BEGIN $ < _ ^ _ ^
+
+BEGIN 0 _ _ -> BEGIN 0 < _ ^ _ ^
+BEGIN 1 _ _ -> BEGIN 1 < _ ^ _ ^
+BEGIN | _ _ -> BEGIN | < _ ^ _ ^
+BEGIN _ _ _ -> q0 s < _ ^ _ ^
+
+
+q0 _ _ _ -> q1 0 < _ ^ _ ^
+q1 _ _ _ -> q2 0 < _ ^ _ ^
+q2 _ _ _ -> q3 1 < _ ^ _ ^
+q3 _ _ _ -> q4 0 < _ ^ _ ^
+q4 _ _ _ -> toStart 1 > _ ^ _ ^
+
+toStart 0 _ _ -> toStart 0 > _ ^ _ ^
+toStart 1 _ _ -> toStart 1 > _ ^ _ ^
+toStart s _ _ -> swapNextNumbers s > _ ^ _ ^
+
+swapNextNumbers 1 _ _ -> getLeft _ > 1 > _ ^
+swapNextNumbers 0 _ _ -> getLeft _ > 0 > _ ^
+
+getLeft 1 _ _ -> getLeft _ > 1 > _ ^
+getLeft 0 _ _ -> getLeft _ > 0 > _ ^
+getLeft | _ _ -> getRight _ > _ ^ _ ^
+getLeft $ _ _ -> fillFirst $ < _ < _ ^
+
+getRight 0 _ _ -> getRight _ > _ ^ 0 >
+getRight 1 _ _ -> getRight _ > _ ^ 1 >
+getRight | _ _ -> reset2 $ ^ _ < _ ^
+getRight _ _ _ -> nextIteration _ < _ ^ _ ^
+getRight $ _ _ -> reset2 $ ^ _ < _ ^
+
+
+reset2 $ 0 _ -> reset2 $ ^ 0 < _ ^
+reset2 $ 1 _ -> reset2 $ ^ 1 < _ ^
+reset2 $ _ _ -> reset3 $ ^ _ ^ _ <
+
+reset3 $ _ 0 -> reset3 $ ^ _ ^ 0 <
+reset3 $ _ 1 -> reset3 $ ^ _ ^ 1 <
+reset3 $ _ _ -> checkLen $ ^ _ > _ >
+
+checkLen $ 0 0 -> checkLen $ ^ 0 > 0 >
+checkLen $ 0 1 -> checkLen $ ^ 0 > 1 >
+checkLen $ 1 0 -> checkLen $ ^ 1 > 0 >
+checkLen $ 1 1 -> checkLen $ ^ 1 > 1 >
+
+checkLen $ 0 _ -> 2ndLess $ ^ 0 ^ _ ^
+checkLen $ 1 _ -> 2ndLess $ ^ 1 ^ _ ^
+checkLen $ _ 0 -> 1stLess $ ^ _ ^ 0 ^
+checkLen $ _ 1 -> 1stLess $ ^ _ ^ 1 ^
+checkLen $ _ _ -> resetBoth $ ^ _ < _ <
+
+resetBoth $ 0 0 -> resetBoth $ ^ 0 < 0 <
+resetBoth $ 0 1 -> resetBoth $ ^ 0 < 1 <
+resetBoth $ 1 0 -> resetBoth $ ^ 1 < 0 <
+resetBoth $ 1 1 -> resetBoth $ ^ 1 < 1 <
+resetBoth $ _ _ -> cmpEqualLen $ ^ _ > _ >
+
+cmpEqualLen $ 0 0 -> cmpEqualLen $ ^ 0 > 0 >
+cmpEqualLen $ 1 1 -> cmpEqualLen $ ^ 1 > 1 >
+cmpEqualLen $ 0 1 -> 1stLess $ ^ 0 > 1 >
+cmpEqualLen $ 1 0 -> 2ndLess $ ^ 1 > 0 >
+cmpEqualLen $ _ _ -> 2ndLess $ ^ _ ^ _ ^
+
+
+2ndLess $ _ _ -> writeLeft | < _ < _ ^
+2ndLess $ 0 _ -> 2ndLess $ ^ 0 > _ ^
+2ndLess $ 1 _ -> 2ndLess $ ^ 1 > _ ^
+
+2ndLess $ 0 0 -> 2ndLess $ ^ 0 > 0 >
+2ndLess $ 0 1 -> 2ndLess $ ^ 0 > 1 >
+2ndLess $ 1 0 -> 2ndLess $ ^ 1 > 0 >
+2ndLess $ 1 1 -> 2ndLess $ ^ 1 > 1 >
+
+1stLess $ _ _ -> writeRight | < _ ^ _ <
+1stLess $ _ 0 -> 1stLess $ ^ _ ^ 0 >
+1stLess $ _ 1 -> 1stLess $ ^ _ ^ 1 >
+
+1stLess $ 0 0 -> 1stLess $ ^ 0 > 0 >
+1stLess $ 0 1 -> 1stLess $ ^ 0 > 1 >
+1stLess $ 1 0 -> 1stLess $ ^ 1 > 0 >
+1stLess $ 1 1 -> 1stLess $ ^ 1 > 1 >
+
+writeLeft _ 0 _ -> writeLeft 0 < _ < _ ^
+writeLeft _ 1 _ -> writeLeft 1 < _ < _ ^
+writeLeft _ _ _ -> writeRight $ < _ ^ _ <
+writeLeft | _ _ -> nextPair | ^ _ ^ _ ^
+writeLeft s _ _ -> nextPair s ^ _ ^ _ ^
+
+writeRight _ _ 0 -> writeRight 0 < _ ^ _ <
+writeRight _ _ 1 -> writeRight 1 < _ ^ _ <
+writeRight _ _ _ -> writeLeft $ < _ < _ ^
+writeRight | _ _ -> nextPair | ^ _ ^ _ ^
+writeRight s _ _ -> nextPair s ^ _ ^ _ ^
+
+nextPair s _ _ -> nextPair s > _ ^ _ ^
+nextPair | _ _ -> nextPair | > _ ^ _ ^
+nextPair 0 _ _ -> nextPair 0 > _ ^ _ ^
+nextPair 1 _ _ -> nextPair 1 > _ ^ _ ^
+nextPair $ _ _ -> swapNextNumbers | > _ ^ _ ^
+
+
+
+nextIteration _ _ _ -> fillFirst $ < _ < _ ^
+
+fillFirst _ 0 _ -> fillFirst 0 < _ < _ ^
+fillFirst _ 1 _ -> fillFirst 1 < _ < _ ^
+fillFirst | _ _ -> goToHead | < _ ^ _ ^
+fillFirst s _ _ -> goToHead s ^ _ ^ _ ^
+
+goToHead | _ _ -> goToHead | < _ ^ _ ^
+goToHead 0 _ _ -> goToHead 0 < _ ^ _ ^
+goToHead 1 _ _ -> goToHead 1 < _ ^ _ ^
+
+goToHead s _ _ -> sub s < _ ^ _ ^
+
+sub 0 _ _ -> sub 1 < _ ^ _ ^
+sub 1 _ _ -> toStart 0 > _ ^ _ ^
+sub _ _ _ -> sorted _ > _ ^ _ ^
+
+sorted 1 _ _ -> sorted _ > _ ^ _ ^
+sorted s _ _ -> remove$ _ > _ ^ _ ^
+
+remove$ 1 _ _ -> remove$ 1 > _ ^ _ ^
+remove$ 0 _ _ -> remove$ 0 > _ ^ _ ^
+remove$ | _ _ -> remove$ | > _ ^ _ ^
+remove$ $ _ _ -> FINISHING _ < _ ^ _ ^
+
+FINISHING 1 _ _ -> FINISHING 1 < _ ^ _ ^
+FINISHING 0 _ _ -> FINISHING 0 < _ ^ _ ^
+FINISHING | _ _ -> FINISHING | < _ ^ _ ^
+FINISHING _ _ _ -> AC _ > _ ^ _ ^
+
+
+
+
+
+
+
+
+
+

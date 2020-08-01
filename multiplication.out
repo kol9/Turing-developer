@@ -1,0 +1,168 @@
+start: s
+accept: AC
+reject: RJ
+blank: _
+
+s 0 -> putDelim 0 <
+s 1 -> putDelim 1 <
+
+putDelim _ -> start | >
+
+start 1 -> start 1 >
+start 0 -> start 0 >
+start * -> start * >
+start _ -> startMultiplying _ <
+
+
+startMultiplying 0 -> multiplyByZero Z <
+startMultiplying 1 -> multiplyByOne O <
+startMultiplying * -> clear * >
+
+clear O -> clear O >
+clear Z -> clear Z >
+clear _ -> removeTail _ <
+
+removeTail O -> removeTail _ <
+removeTail Z -> removeTail _ <
+removeTail * -> removeTail _ <
+removeTail 0 -> removeTail _ <
+removeTail 1 -> removeTail _ <
+removeTail | -> gotoBeginning _ <
+
+gotoBeginning z -> gotoBeginning 0 <
+gotoBeginning o -> gotoBeginning 1 <
+gotoBeginning 0 -> gotoBeginning 0 <
+gotoBeginning 1 -> gotoBeginning 1 <
+gotoBeginning _ -> removeLeadingZeros _ >
+
+
+removeLeadingZeros 0 -> removeLeadingZeros _ >
+removeLeadingZeros 1 -> AC 1 ^
+removeLeadingZeros _ -> AC 0 ^
+
+
+multiplyByZero 0 -> multiplyByZero 0 <
+multiplyByZero 1 -> multiplyByZero 1 <
+multiplyByZero * -> findLhs0 * <
+
+multiplyByOne 0 -> multiplyByOne 0 <
+multiplyByOne 1 -> multiplyByOne 1 <
+multiplyByOne * -> findLhs1 * <
+
+findLhs0 0 -> goLeft00 a <
+findLhs0 1 -> goLeft10 b <
+findLhs0 a -> findLhs0 a <
+findLhs0 b -> findLhs0 b <
+findLhs0 | -> addBlockSymbol | <
+
+findLhs1 0 -> goLeft01 a <
+findLhs1 1 -> goLeft11 b <
+findLhs1 a -> findLhs1 a <
+findLhs1 b -> findLhs1 b <
+findLhs1 | -> addBlockSymbol | <
+
+addBlockSymbol - -> reset z <
+addBlockSymbol + -> reset o <
+addBlockSymbol z -> addBlockSymbol z <
+addBlockSymbol o -> addBlockSymbol o <
+
+reset - -> reset 0 <
+reset + -> reset 1 <
+reset 0 -> reset 0 <
+reset 1 -> reset 1 <
+reset _ -> nextStep _ >
+
+nextStep 0 -> nextStep 0 >
+nextStep 1 -> nextStep 1 >
+nextStep o -> nextStep o >
+nextStep z -> nextStep z >
+nextStep | -> nextStep | >
+nextStep a -> nextStep 0 >
+nextStep b -> nextStep 1 >
+nextStep * -> findRhs * >
+
+findRhs 0 -> findRhs 0 >
+findRhs 1 -> findRhs 1 >
+findRhs Z -> startMultiplying Z <
+findRhs O -> startMultiplying O <
+
+goLeft00 0 -> goLeft00 0 <
+goLeft00 1 -> goLeft00 1 <
+goLeft00 | -> mul00 | <
+
+goLeft01 0 -> goLeft01 0 <
+goLeft01 1 -> goLeft01 1 <
+goLeft01 | -> mul01 | <
+
+goLeft10 0 -> goLeft10 0 <
+goLeft10 1 -> goLeft10 1 <
+goLeft10 | -> mul10 | <
+
+goLeft11 0 -> goLeft11 0 <
+goLeft11 1 -> goLeft11 1 <
+goLeft11 | -> mul11 | <
+
+
+mul00 z -> mul00 z <
+mul00 o -> mul00 o <
+mul00 _ -> goback0 - >
+mul00 0 -> goback0 - >
+mul00 1 -> goback0 + >
+mul00 - -> mul00 - <
+mul00 + -> mul00 + <
+
+mul10 z -> mul10 z <
+mul10 o -> mul10 o <
+mul10 _ -> goback0 - >
+mul10 0 -> goback0 - >
+mul10 1 -> goback0 + >
+mul10 - -> mul10 - <
+mul10 + -> mul10 + <
+
+
+
+mul01 z -> mul01 z <
+mul01 o -> mul01 o <
+mul01 _ -> goback1 - >
+mul01 0 -> goback1 - >
+mul01 1 -> goback1 + >
+mul01 - -> mul01 - <
+mul01 + -> mul01 + <
+
+mul11 z -> mul11 z <
+mul11 o -> mul11 o <
+mul11 _ -> goback1 + >
+mul11 0 -> goback1 + >
+mul11 1 -> fill1 - <
+mul11 - -> mul11 - <
+mul11 + -> mul11 + <
+
+fill1 _ -> goback1 1 >
+fill1 0 -> goback1 1 >
+fill1 1 -> fill1 0 <
+
+goback0 0 -> goback0 0 >
+goback0 1 -> goback0 1 >
+goback0 z -> goback0 z >
+goback0 o -> goback0 o >
+goback0 | -> goback0 | >
+goback0 + -> goback0 + >
+goback0 - -> goback0 - >
+goback0 a -> findLhs0 a <
+goback0 b -> findLhs0 b < 
+
+goback1 0 -> goback1 0 >
+goback1 1 -> goback1 1 >
+goback1 z -> goback1 z >
+goback1 o -> goback1 o >
+goback1 | -> goback1 | >
+goback1 + -> goback1 + >
+goback1 - -> goback1 - >
+goback1 a -> findLhs1 a <
+goback1 b -> findLhs1 b <
+
+
+
+
+
+

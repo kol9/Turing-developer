@@ -1,0 +1,36 @@
+start: s
+accept: AC
+reject: RJ
+blank: _
+
+s 0 -> s a >
+s 1 -> s b >
+s _ -> copy _ <
+
+copy a -> put0 Z > 
+copy b -> put1 O >
+
+put0 Z -> put0 Z >
+put0 O -> put0 O >
+put0 0 -> put0 0 >
+put0 1 -> put0 1 >
+put0 _ -> goback 0 <
+
+put1 Z -> put1 Z >
+put1 O -> put1 O >
+put1 0 -> put1 0 >
+put1 1 -> put1 1 >
+put1 _ -> goback 1 <
+
+goback 0 -> goback 0 <
+goback 1 -> goback 1 <
+goback Z -> goback Z <
+goback O -> goback O <
+goback a -> put0 Z >
+goback b -> put1 O >
+goback _ -> clear _ >
+
+clear O -> clear _ >
+clear Z -> clear _ >
+clear 0 -> AC 0 ^
+clear 1 -> AC 1 ^
